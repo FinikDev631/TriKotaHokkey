@@ -1,0 +1,51 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user data, including Elo rating and character preferences.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "photoURL": { "type": "string", "description": "User's profile picture URL" },
+        "elo": { "type": "integer", "description": "Elo rating" },
+        "wins": { "type": "integer", "description": "Number of wins" },
+        "losses": { "type": "integer", "description": "Number of losses" },
+        "lastCharacter": { "type": "string", "description": "Last selected character" },
+        "bio": { "type": "string", "description": "User's bio" },
+        "isBanned": { "type": "boolean", "description": "Whether the user is banned" }
+      },
+      "required": ["uid", "displayName", "elo"]
+    },
+    "Match": {
+      "title": "Hockey Match",
+      "description": "Represents a live or completed hockey match.",
+      "type": "object",
+      "properties": {
+        "player1": { "type": "string", "description": "UID of player 1" },
+        "player2": { "type": "string", "description": "UID of player 2 (null if waiting)" },
+        "player1Char": { "type": "string", "description": "Character selected by player 1" },
+        "player2Char": { "type": "string", "description": "Character selected by player 2" },
+        "player1Score": { "type": "integer", "description": "Score of player 1" },
+        "player2Score": { "type": "integer", "description": "Score of player 2" },
+        "status": { "type": "string", "enum": ["waiting", "playing", "finished"], "description": "Current match status" },
+        "ballPos": { "type": "object", "description": "Current puck position" },
+        "player1Pos": { "type": "object", "description": "Current player 1 position" },
+        "player2Pos": { "type": "object", "description": "Current player 2 position" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["player1", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/matches/{matchId}": {
+      "schema": "Match",
+      "description": "Active and past matches"
+    }
+  }
+}
